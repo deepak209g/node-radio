@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var socket = io('http://172.17.22.54:3000');
+			socket.emit('listFiles');
+			socket.on('fileList', function(data){
+				//console.log(data);
+				populateSongList("#listOfSongs", data);
+			});
+			
+
+			function populateSongList(ulElem, list){
+				var elem = $(ulElem);
+				for(var i=0; i<list.length; i++){
+					var tokens = list[i].split('\\');
+					var name = tokens[tokens.length-1];
+					elem.append("<li data-path='"+ list[i]+"'>"+ name +"</li>");
+				}
+			}
+
+			$('#listOfSongs').on('click', 'li', function(e){
+				var path = $(this).attr('data-path');
+				socket.emit('adminCommandPlayNewSong', {path: path});
+			});	
+		})
+		
+	</script>
+</head>
+<body>
+	<ul id="listOfSongs"></ul>
+</body>
+</html>
