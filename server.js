@@ -70,7 +70,7 @@ io.on('connection', function(socket){
 
   			setTimeout(function(){
 	  			socket.broadcast.emit('playMusic');
-	  		}, 2000);
+	  		}, 3000);
   		})
   	});
 });
