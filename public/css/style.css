@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+body {
+    background-color: #000000;
+    overflow: hidden;
+}
+#nowPlaying{
+    top:0px;
+    color: rgb(184, 183, 195);
+    position: absolute;
+    text-indent: 50px;
+    font-size: 20px;
+    line-height: 60px;
+    height: 60px;
+}
+
+#footer{
+    background-color: #111111;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    height: 80px;
+    z-index: 20;
+}
+
+#volumeControl{
+    position: absolute;
+    right: 20px;
+    height: 70px;
+    width: 70px;
+    bottom: 5px;
+    cursor: pointer;
+}
+/* make some txt small for small screens */
+@media (max-width: 900px) {
+    footer {
+        font-size: 12px;
+    }
+}
+@media (max-width: 480px) {
+    #input {
+        font-size: 16px;
+    }
+    footer {
+        font-size: 10px;
+    }
+}

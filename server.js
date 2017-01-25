@@ -1,10 +1,12 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 var dir = require('node-dir');
 var ip = require('ip');
 var hb = require('handlebars');
+app.use(express.static('public'));
 
 var myip = ip.address();
 
@@ -55,22 +57,28 @@ io.on('connection', function(socket){
 
   	socket.on('adminCommandPlayNewSong', function(data){
   		var path = data.path;
-  		readStream = fs.createReadStream(path);
-  		var name = nameFromPath(path);
-  		socket.broadcast.emit('newSong', {name: name });
+  		fs.access(path, (err)=>{
+  			if(err){
+  				return;
+  			}
+  			readStream = fs.createReadStream(path);
+	  		//console.log(readStream);
+	  		var name = nameFromPath(path);
+	  		socket.broadcast.emit('newSong', {name: name });
 
-  		var i=1;
-  		readStream.on('data', function(chunk){
-  			socket.broadcast.emit('moreData', {data: chunk, i: i});
-  			i++;	
-  		});
+	  		var i=1;
+	  		readStream.on('data', function(chunk){
+	  			socket.broadcast.emit('moreData', {data: chunk, i: i});
+	  			i++;	
+	  		});
 
-  		readStream.on('end', function(){
-  			socket.broadcast.emit('assembleData');
+	  		readStream.on('end', function(){
+	  			socket.broadcast.emit('assembleData');
 
-  			setTimeout(function(){
-	  			socket.broadcast.emit('playMusic');
-	  		}, 3000);
+	  			setTimeout(function(){
+		  			socket.broadcast.emit('playMusic');
+		  		}, 3000);
+	  		})
   		})
   	});
 });
