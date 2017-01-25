@@ -56,7 +56,8 @@ io.on('connection', function(socket){
   	socket.on('adminCommandPlayNewSong', function(data){
   		var path = data.path;
   		readStream = fs.createReadStream(path);
-  		socket.broadcast.emit('newSong');
+  		var name = nameFromPath(path);
+  		socket.broadcast.emit('newSong', {name: name });
 
   		var i=1;
   		readStream.on('data', function(chunk){
@@ -79,6 +80,12 @@ io.on('connection', function(socket){
 
 function isMp3File(file) {
     return (file.indexOf(".mp3") > -1);
+}
+
+function nameFromPath(path){
+	var tokens = path.split('\\');
+	var name = tokens[tokens.length-1];
+	return name;
 }
 
 // blah blah

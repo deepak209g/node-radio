@@ -2,8 +2,10 @@
 <html>
 <head>
 	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 	<script type="text/javascript">
+	$(document).ready(function(){
 		var socket = io('http://{{ip}}:3000');
 
 		var queue;
@@ -20,6 +22,7 @@
 			context = new (window.AudioContext || window.webkitAudioContext)();
 			queue = [];
 			nextTime = 0;
+			$("#nowPlaying").html(data.name);
 		});
 
 
@@ -125,10 +128,17 @@
 			}
 			return tmp.buffer;
 		}
+	});
+		
 	</script>
+	<style type="text/css">
+		#nowPlaying{
+			text-align: center;
+			color: rgb(23,45,67);
+		}
+	</style>
 </head>
 <body>
-chal pada
-
+<h1 id="nowPlaying"></h1>
 </body>
 </html>
