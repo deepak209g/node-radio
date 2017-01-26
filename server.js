@@ -70,15 +70,18 @@ io.on('connection', function(socket){
 	  		readStream.on('data', function(chunk){
 	  			socket.broadcast.emit('moreData', {data: chunk, i: i});
 	  			i++;	
+	  			if(i == 11){
+			  		setTimeout(function(){
+				  		socket.broadcast.emit('playMusic');
+				  	}, 1000);	  				
+	  			}
 	  		});
 
-	  		readStream.on('end', function(){
-	  			socket.broadcast.emit('assembleData');
 
-	  			setTimeout(function(){
-		  			socket.broadcast.emit('playMusic');
-		  		}, 3000);
-	  		})
+
+	  		// readStream.on('end', function(){
+	  		// 	socket.broadcast.emit('assembleData');
+	  		// })
   		})
   	});
 });

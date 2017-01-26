@@ -12,6 +12,7 @@ $(document).ready(function(){
 		var analyser;
 		var gainNode;
 		var gainValue = 0.5;
+		var audioSource;
 		socket.on('newSong', function (data) {
 			playing = false;
 			if(context){
@@ -24,7 +25,17 @@ $(document).ready(function(){
     		gainNode.gain.value = gainValue;
 			queue = [];
 			nextTime = 0;
-			$("#nowPlaying").html(data.name);
+			var name = data.name.substring(0, data.name.length-4);
+			for(var i=0; i<name.length; i++){
+				if(name[i] >= 'A' && name[i] <= 'Z'){
+					name = name.substring(i);
+					break;
+				}else if(name[i] >= 'a' && name[i] <= 'z'){
+					name = name.substring(i);
+					break;
+				}
+			}
+			$("#nowPlaying").html(name);
 			$("#visualizer").html("");
 		});
 
@@ -83,7 +94,7 @@ $(document).ready(function(){
 		
 			playing = true;
 			console.log(analyser);
-			var audioSource = new AwesomeAudioSource(analyser);
+			audioSource = new AwesomeAudioSource(analyser);
 		    visualizer.init({
 		        containerId: 'visualizer',
 		        audioSource: audioSource
