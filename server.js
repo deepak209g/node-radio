@@ -70,7 +70,7 @@ io.on('connection', function(socket){
 	  		readStream.on('data', function(chunk){
 	  			socket.broadcast.emit('moreData', {data: chunk, i: i});
 	  			i++;	
-	  			if(i == 11){
+	  			if(i == 30){
 			  		setTimeout(function(){
 				  		socket.broadcast.emit('playMusic');
 				  	}, 1000);	  				
