@@ -3,7 +3,7 @@ $(document).ready(function(){
 		// Player logic
 		console.log(ip);
 		var socket = io('http://'+ ip +':3000');
-		var chunkSize = 25;
+		var chunkSize = 15;
 		var queue;
 		var nextTime = 0;
 		var playing = false;
