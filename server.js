@@ -54,7 +54,7 @@ io.on('connection', function(socket){
   		
   	});
 
-
+		var chunkSize = 15;
   	socket.on('adminCommandPlayNewSong', function(data){
   		var path = data.path;
   		fs.access(path, (err)=>{
@@ -70,7 +70,7 @@ io.on('connection', function(socket){
 	  		readStream.on('data', function(chunk){
 	  			socket.broadcast.emit('moreData', {data: chunk, i: i});
 	  			i++;	
-	  			if(i == 30){
+	  			if(i == 3*chunkSize){
 			  		setTimeout(function(){
 				  		socket.broadcast.emit('playMusic');
 				  	}, 1000);	  				
